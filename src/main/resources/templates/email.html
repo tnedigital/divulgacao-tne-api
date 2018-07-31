@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Editar e-mail</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<form id="fileuploadForm" action="#" th:action="@{/enviar}"
+		th:object="${email}" method="POST">
+
+		<input type="text" th:field="*{id}" />
+		</br></br>
+		<textarea type="text" th:field="*{conteudo}"></textarea>
+
+		<!--  <p>Importar contatos:</p>
+		<label for="file">Arquivo</label> <input id="file" type="file" name="file" />-->
+		<p>
+			<input type="submit" value="Submit" />
+		</p>
+	</form>
+</body>
+</html>
