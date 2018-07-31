@@ -22,12 +22,6 @@ public class MailController {
 		return "Olá mundo";
 	}
 	
-	@RequestMapping(value="/upload", method=RequestMethod.POST)
-	public void processUpload(@RequestParam MultipartFile file) throws IOException {
-	        System.out.println("Upload de arquivo");
-	        System.out.println(file.getName());
-	}
-	
     @PostMapping("/enviar")
     public void greetingSubmit(@ModelAttribute Email email) {
         System.out.println(email.getTitulo());
