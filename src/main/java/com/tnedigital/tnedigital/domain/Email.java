@@ -1,35 +1,44 @@
 package com.tnedigital.tnedigital.domain;
 
-import java.io.File;
-
+/**
+ * @author renato.caetano
+ */
 public class Email {
 
-	private File contatos;
-	private String titulo;
-	private String conteudo;
+	private String recipient;
+	private String subject;
+	private String text;
+	private String attachment;
 
-	public String getTitulo() {
-		return titulo;
+	public String getSubject() {
+		return subject;
 	}
 
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
+	public void setSubject(String subject) {
+		this.subject = subject;
 	}
 
-	public String getConteudo() {
-		return conteudo;
+	public String getText() {
+		return text;
 	}
 
-	public void setConteudo(String conteudo) {
-		this.conteudo = conteudo;
+	public void setText(String text) {
+		this.text = text;
+	}
+	
+	public String getAttachment() {
+		return attachment;
 	}
 
-	public File getContatos() {
-		return contatos;
+	public void setAttachment(String attachment) {
+		this.attachment = attachment;
 	}
 
-	public void setContatos(File contatos) {
-		this.contatos = contatos;
+	public String getRecipient() {
+		return recipient;
 	}
 
+	public void setRecipient(String recipient) {
+		this.recipient = recipient;
+	}
 }
