@@ -6,9 +6,11 @@
 </head>
 <body>
 	<form id="fileuploadForm" action="#" th:action="@{/enviar}"
-		th:object="${email}" method="POST">
-
-		<input type="text" th:field="*{id}" />
+		th:object="${email}" method="POST" enctype="multipart/form-data">
+		<input type="file" name="file"/>
+		</br></br>
+		
+		<input type="text" th:field="*{titulo}" />
 		</br></br>
 		<textarea type="text" th:field="*{conteudo}"></textarea>
 
