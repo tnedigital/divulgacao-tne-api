@@ -1,4 +1,4 @@
-package com.tnedigital.tnedigital;
+package com.tnedigital;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

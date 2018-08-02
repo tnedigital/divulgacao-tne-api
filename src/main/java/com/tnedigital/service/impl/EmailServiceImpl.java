@@ -1,4 +1,4 @@
-package com.tnedigital.tnedigital.service.impl;
+package com.tnedigital.service.impl;
 
 import java.io.File;
 
@@ -12,23 +12,28 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
-import com.tnedigital.tnedigital.domain.Email;
-import com.tnedigital.tnedigital.service.EmailService;
+import com.tnedigital.configuration.MailConfiguration;
+import com.tnedigital.domain.Email;
+import com.tnedigital.service.EmailService;
 
 @Component
 public class EmailServiceImpl implements EmailService {
 
 	private final JavaMailSender emailSender;
 	
-    @Autowired
-    public EmailServiceImpl(final JavaMailSender emailSender) {
-        this.emailSender = emailSender;
-        System.setProperty("mail.mime.charset", "iso-8859-1");
-    }
+	@Autowired
+	private MailConfiguration mailConfiguration;
+
+	@Autowired
+	public EmailServiceImpl(final JavaMailSender emailSender) {
+		this.emailSender = emailSender;
+		System.setProperty("mail.mime.charset", "iso-8859-1");
+	}
 
 	@Override
 	public void sendEmail(Email email) {
 		SimpleMailMessage message = new SimpleMailMessage();
+		message.setFrom(mailConfiguration.getUsername());
 		message.setTo(email.getRecipient());
 		message.setSubject(email.getSubject());
 		message.setText(email.getText());
@@ -57,5 +62,4 @@ public class EmailServiceImpl implements EmailService {
 		}
 
 	}
-
 }
