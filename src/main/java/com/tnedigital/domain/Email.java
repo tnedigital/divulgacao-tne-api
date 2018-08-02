@@ -1,11 +1,11 @@
-package com.tnedigital.tnedigital.domain;
+package com.tnedigital.domain;
 
 /**
  * @author renato.caetano
  */
 public class Email {
 
-	private String recipient;
+	private String[] recipient;
 	private String subject;
 	private String text;
 	private String attachment;
@@ -34,11 +34,11 @@ public class Email {
 		this.attachment = attachment;
 	}
 
-	public String getRecipient() {
+	public String[] getRecipient() {
 		return recipient;
 	}
 
-	public void setRecipient(String recipient) {
+	public void setRecipient(String... recipient) {
 		this.recipient = recipient;
 	}
 }

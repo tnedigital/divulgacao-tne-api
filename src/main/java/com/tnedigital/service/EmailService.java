@@ -1,8 +1,8 @@
-package com.tnedigital.tnedigital.service;
+package com.tnedigital.service;
 
 import javax.mail.MessagingException;
 
-import com.tnedigital.tnedigital.domain.Email;
+import com.tnedigital.domain.Email;
 
 /**
  * Interface com os métodos úteis para envio de email
