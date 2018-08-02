@@ -25,7 +25,7 @@ public class Email {
 	public void setText(String text) {
 		this.text = text;
 	}
-	
+
 	public String getAttachment() {
 		return attachment;
 	}
