@@ -59,6 +59,8 @@ public class EmailService {
 	/**
 	 * Enviar e-mail simples para um endereço
 	 * 
+	 * TODO Verificar se o email tem anexo ou não
+	 * 
 	 * @param message
 	 * @param address
 	 */
@@ -68,7 +70,7 @@ public class EmailService {
 	}
 
 	/**
-	 * TODO Enviar e-mail com anexo
+	 * TODO Enviar e-mail com anexo.
 	 * 
 	 * @param email
 	 * @throws MessagingException
@@ -94,6 +96,9 @@ public class EmailService {
 	/**
 	 * Define a lista de endereços através do arquivo importado
 	 * 
+	 * TODO Verificar emails duplicados e não permitir que adicione a lista 
+	 * TODO Verificar emails válidos
+	 * 
 	 * @param file
 	 * @return
 	 * @throws IOException
@@ -116,7 +121,9 @@ public class EmailService {
 
 	/**
 	 * Cria a mensagem de e-mail
-	 * 	// TODO Configurar o conteúdo da mensagem em formato de HTML
+	 * 
+	 * TODO Configurar o conteúdo da mensagem em formato de HTML
+	 * 
 	 * @param email
 	 * @return
 	 */
