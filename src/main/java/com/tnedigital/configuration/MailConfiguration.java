@@ -9,7 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
-import com.tnedigital.service.impl.EmailServiceImpl;
+import com.tnedigital.service.EmailService;
 
 /**
  * Configuração das propriedades de email
@@ -54,8 +54,8 @@ public class MailConfiguration {
 	private String password;
 
 	@Bean
-	public EmailServiceImpl emailServiceImpl() {
-		return new EmailServiceImpl(javaMailSender());
+	public EmailService emailServiceImpl() {
+		return new EmailService(javaMailSender());
 	}
 	
 	@Bean
