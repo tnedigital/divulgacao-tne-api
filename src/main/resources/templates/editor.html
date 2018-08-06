@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
 <title>TNE Divulgação</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -13,45 +13,63 @@
 <body class="jumbotron" id="main">
 	<section class="mx-auto">
 		<div class="container">
-			<div class="col-md-12 col-sm-12 col-lg-9 mx-auto">
-				<div class="mt-3">
-					<div class="input-group">
-						<input type="file" name="file" />
-					</div>
-
-				</div>
-				<label for="input-assunto"> </label>
-				<div class="input-group mb-3">
-					<input type="text" class="form-control" placeholder="Assunto"
-						id="input-assunto" aria-label="Assunto" aria-describedby="Assunto">
-				</div>
-				<textarea></textarea>
-				<div class="mt-3">
-					<div class="input-group">
-						<div class="custom-file">
-							<input type="file" class="custom-file-input"
-								id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
-							<label class="custom-file-label" for="inputGroupFile04">Escolha
-								um arquivo</label>
-						</div>
-						<div class="input-group-append">
-							<button class="btn btn-outline-secondary" type="button"
-								id="inputGroupFileAddon04">Anexar</button>
-						</div>
-					</div>
-
+			<div class="col-md-12 col-sm-12 col-lg-9 mx-auto">				
+				<!-- FORMULÁRIO DO EDITOR DE EMAIL -->	
+				<form 	th:object="${email}" 
+						method="POST"
+						enctype="multipart/form-data"
+						action="#" 
+						th:action="@{/enviar}">
+						
 					<div class="mt-3">
-						<button type="button" class="btn btn-primary" onclick="content()">Gerar
-							HTML</button>
-
+						<div class="input-group">
+							<input type="file" name="file" />
+						</div>
 					</div>
-
-				</div>
+						
+					<label for="input-assunto"> </label>
+					
+					<!-- ASSUNTO -->
+					<div class="input-group mb-3">
+						<input 	type="text" 
+								class="form-control" 
+								placeholder="Assunto"
+								id="input-assunto" 
+								aria-label="Assunto"
+								aria-describedby="Assunto"
+								th:field="*{subject}">
+					</div>
+					
+					<!-- EDITOR -->
+					<textarea th:field="*{text}"></textarea>
+					
+					<!-- UPLOAD DE ANEXO -->
+					<div class="mt-3">
+						<div class="input-group">
+							<div class="custom-file">
+								<input 	id="inputGroupFile04"
+										class="custom-file-input"
+										type="file" 
+										aria-describedby="inputGroupFileAddon04" 
+										th:field="*{attachment}">
+								<label class="custom-file-label" for="inputGroupFile04">Escolha um arquivo</label>
+							</div>
+							<div class="input-group-append">
+								<button class="btn btn-outline-secondary" type="button"
+									id="inputGroupFileAddon04">Anexar</button>
+							</div>
+						</div>
+						<div class="mt-3">
+							<button class="btn btn-primary"  type="submit" value="Submit" >Enviar</button>
+						</div>
+						<div class="mt-3">
+							<button type="button" class="btn btn-secondary" onclick="content()">Gerar HTML</button>
+						</div>	
+					</div>
+				</form>
 			</div>
 		</div>
-
 	</section>
-	</div>
 </body>
 <footer>
 	<script th:src="@{/plugins/tinymce.min.js}"></script>
