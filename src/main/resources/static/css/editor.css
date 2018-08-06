@@ -1,0 +1,19 @@
+body {
+  padding:5px;
+  /* background-color:#e5e5e5; */
+  width: 100%;
+  /* font-family: Arial, Helvetica, sans-serif; */
+}
+
+#main {
+  /* background-color: red !important; */
+  background-image: url('../img/bg-login.png');
+  background-size: cover;
+  /* max-width: 600px; */
+  min-width: 340px;
+  margin:auto;
+
+}
+
+
+

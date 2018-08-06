@@ -51,5 +51,11 @@ public class MailController {
 		List<Address> addresses = emailService.defineAddress(file);
 		emailService.send(email, addresses);
 	}
+	
+	@GetMapping("/editor")
+	public String editor(Model model) {
+		return "editor";
+	}
+
 
 }
