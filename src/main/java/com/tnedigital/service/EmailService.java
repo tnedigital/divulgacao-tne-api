@@ -1,18 +1,17 @@
 package com.tnedigital.service;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -20,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tnedigital.configuration.MailConfiguration;
-import com.tnedigital.domain.Address;
 import com.tnedigital.domain.Email;
 
 /**
@@ -47,73 +45,56 @@ public class EmailService {
 	 * 
 	 * @param email
 	 * @param addresses
+	 * @throws MessagingException
 	 */
 	@Async
-	public void send(Email email, List<Address> addresses) {
-		SimpleMailMessage message = createMessage(email);
-		for (Address address : addresses) {
-			sendMessage(message, address);
+	public void send(Email email, List<InternetAddress> addresses) throws MessagingException {
+		for (InternetAddress address : addresses) {
+			sendMessage(email, address);
 		}
 	}
 
 	/**
 	 * Enviar e-mail simples para um endereço
 	 * 
-	 * TODO Verificar se o email tem anexo ou não
-	 * 
 	 * @param message
 	 * @param address
-	 */
-	public void sendMessage(SimpleMailMessage message, Address address) {
-		message.setTo(address.getAddress());
-		emailSender.send(message);
-	}
-
-	/**
-	 * TODO Enviar e-mail com anexo.
-	 * 
-	 * @param email
 	 * @throws MessagingException
 	 */
-	public void sendEmailWithAttachment(Email email) throws MessagingException {
-		try {
-			MimeMessage message = emailSender.createMimeMessage();
-			MimeMessageHelper helper = new MimeMessageHelper(message, true);
-
-			helper.setTo(email.getRecipient());
-			helper.setSubject(email.getSubject());
-			helper.setText(email.getText());
-			FileSystemResource file = new FileSystemResource(new File(""));
-			helper.addAttachment("Invoice", file);
-
-			emailSender.send(message);
-
-		} catch (Exception e) {
-			System.out.println(e);
-		}
+	public void sendMessage(Email email, InternetAddress address) throws MessagingException {
+		MimeMessage message = createMessage(email, address);
+		emailSender.send(message);
 	}
 
 	/**
 	 * Define a lista de endereços através do arquivo importado
 	 * 
-	 * TODO Verificar emails duplicados e não permitir que adicione a lista 
-	 * TODO Verificar emails válidos
-	 * 
 	 * @param file
 	 * @return
 	 * @throws IOException
 	 */
-	public List<Address> defineAddress(MultipartFile file) throws IOException {
+	public List<InternetAddress> defineAddress(MultipartFile file) throws IOException {
 		BufferedReader buffer = new BufferedReader(new InputStreamReader(file.getInputStream()));
-		List<Address> addressList = new ArrayList<>();
+		List<InternetAddress> addressList = new ArrayList<InternetAddress>();
 		String line;
 
 		while ((line = buffer.readLine()) != null) {
-			if (!addressList.contains(line)) {
-				Address address = new Address();
-				address.setAddress(line);
-				addressList.add(address);
+			try {
+				if (!addressList.contains(line)) {
+					InternetAddress address = new InternetAddress();
+					address.setAddress(line);
+					address.validate();
+
+					if (addressList.contains(address)) {
+						continue;
+					} else {
+						addressList.add(address);
+					}
+				}
+			} catch (AddressException e) {
+				System.out.println("Endereço inválido: " + e.getRef());
 			}
+
 		}
 
 		return addressList;
@@ -122,17 +103,20 @@ public class EmailService {
 	/**
 	 * Cria a mensagem de e-mail
 	 * 
-	 * TODO Configurar o conteúdo da mensagem em formato de HTML
-	 * 
 	 * @param email
 	 * @return
+	 * @throws MessagingException
 	 */
-	public SimpleMailMessage createMessage(Email email) {
-		SimpleMailMessage message = new SimpleMailMessage();
+	public MimeMessage createMessage(Email email, InternetAddress address) throws MessagingException {
+		final MimeMessage mimeMessage = emailSender.createMimeMessage();
+		final MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+		
 		message.setFrom(mailConfiguration.getUsername());
 		message.setSubject(email.getSubject());
-		message.setText(email.getText());
-		return message;
+		message.setText(email.getText(), true);
+		message.setTo(address);
+		
+		return mimeMessage;
 	}
 
 }
